@@ -56,7 +56,7 @@ def menu_loop():
 
         if choice in menu:
             menu[choice]()
-    clear()        
+    clear()
 
 def view_products():
     """View products in inventory"""
@@ -77,8 +77,23 @@ def view_products():
 def add_product():
     """Add a new product to the inventory"""
     name = input("\nPlease enter the name of the new product: ")
-    quantity = int(input("Please enter the quantity of the new product: "))
-    price = int(input("Please enter the price of the new product(in dollars): ").strip("$")) * 100
+
+    quantity = input("Please enter the quantity of the new product: ")
+    while quantity.isdigit() == False:
+        print("Please enter a valid number.")
+        quantity = input("Please enter the quantity of the new product: ")
+    quantity = int(quantity)
+
+    price = input("Please enter the price of the new product(in dollars): ").strip("$")
+    while True:
+        try:
+            price = float(price)
+            break
+        except ValueError:
+            print("Please enter a valid price")
+            price = input("Please enter the price of the new product: ")
+
+    price = price * 100
 
     try:
         Product.create(product_name=name,
